@@ -1,6 +1,8 @@
 import 'package:blog_app/const/colors.dart';
 import 'package:blog_app/const/text_syle.dart';
+import 'package:blog_app/components/tab_bar/news_category_tab_bar.dart';
 import 'package:blog_app/screens/login_screen.dart';
+import 'package:blog_app/screens/single_blog_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -62,6 +64,8 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 18.0),
             BlogGrid(),
+            const SizedBox(height: 18.0),
+            const NewsCategoryTabBar()
           ],
         ),
       ),
@@ -244,12 +248,23 @@ class BlogGrid extends StatelessWidget {
         ),
         itemBuilder: (context, int index) {
           final blog = blogDetails[index];
-          return BlogContainer(
-            blogImg: blog.blogImg,
-            blogTitle: blog.blogTitle,
-            authorImg: blog.authorImg,
-            authorName: blog.authorName,
-            datePosted: blog.datePosted,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return SingleBlogDetailsScreen(
+                  img: blog.blogImg,
+                  text: blog.blogTitle,
+                );
+              }));
+            },
+            child: BlogContainer(
+              blogImg: blog.blogImg,
+              blogTitle: blog.blogTitle,
+              authorImg: blog.authorImg,
+              authorName: blog.authorName,
+              datePosted: blog.datePosted,
+            ),
           );
         },
       ),
