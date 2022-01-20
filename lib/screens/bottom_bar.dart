@@ -1,4 +1,3 @@
-import 'package:blog_app/const/app_icon.dart';
 import 'package:blog_app/const/colors.dart';
 import 'package:blog_app/screens/home_screen.dart';
 import 'package:blog_app/screens/profile_screen.dart';
