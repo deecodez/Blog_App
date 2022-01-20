@@ -87,6 +87,7 @@ class CustomTextFormField extends StatelessWidget {
   final String hintText;
   final IconData? suffixIcon;
   final IconData? preffixIcon;
+  //TODO: To add controller, to validate and add some other parameter
   const CustomTextFormField({
     required this.hintText,
     this.suffixIcon,

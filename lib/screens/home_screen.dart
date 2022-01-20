@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ListView(
+          //TODO: To see how to solve the issue of padding in he grid
           padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 74),
           children: [
             Row(

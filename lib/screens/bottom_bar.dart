@@ -50,6 +50,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           onTap: _selectedPage,
           items: const [
             BottomNavigationBarItem(
+              //TODO: How to display the blue icon under the label
               label: 'Home',
               tooltip: 'Home',
               icon: Icon(Icons.home),
