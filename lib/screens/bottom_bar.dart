@@ -5,6 +5,8 @@ import 'package:blog_app/screens/saved_item_screen.dart';
 import 'package:blog_app/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'create_blog_screen.dart';
+
 class BottomBarScreen extends StatefulWidget {
   const BottomBarScreen({Key? key}) : super(key: key);
 
@@ -21,6 +23,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     _pages = [
       {'page': const HomeScreen(), 'title': 'Home'},
       {'page': const SearchScreen(), 'title': 'Feed'},
+      {'page': Container(), 'title': 'Search'},
       {'page': const SavedItemScreen(), 'title': 'Search'},
       {'page': const ProfileScreen(), 'title': 'Cart'},
     ];
@@ -87,9 +90,13 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
         elevation: 5,
         child: (const Icon(Icons.add)),
         onPressed: () {
-          setState(() {
-            _selectedIndex = 2;
-          });
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return const CreateBlogScreen();
+          }));
+          // setState(() {
+          //   _selectedIndex = 3;
+          // });
         },
       ),
     );

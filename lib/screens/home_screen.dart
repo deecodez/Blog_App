@@ -12,62 +12,87 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          //TODO: To see how to solve the issue of padding in he grid
-          padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 74),
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Hello Sonia',
-                      style: TextStyling.headingStyle,
-                    ),
-                    const SizedBox(width: 8.0),
-                    Image.asset('assets/images/hand.png')
-                  ],
-                ),
-                const CircleAvatar(
-                  radius: 20,
-                  backgroundImage: AssetImage('assets/images/profile_pic.png'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 33.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 270.w,
-                  child: const CustomTextFormField(
-                      hintText: 'Search', preffixIcon: Icons.search),
-                ),
-                Container(
-                  height: 44.h,
-                  width: 44.w,
-                  decoration: BoxDecoration(
-                    color: AppColor.primaryColor,
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                  child: Center(
-                      child: Image.asset('assets/images/filter_icon.png')),
-                ),
-              ],
-            ),
-            const SizedBox(height: 30.0),
-            const Text(
-              'Breaking news',
-              style: TextStyling.headingStyle,
-            ),
-            const SizedBox(height: 18.0),
-            BlogGrid(),
-            const SizedBox(height: 18.0),
-            const NewsCategoryTabBar()
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 14.0),
+          child: Row(
+            children: [
+              const Text(
+                'Hello Sonia',
+                style: TextStyling.headingStyle,
+              ),
+              const SizedBox(width: 8.0),
+              Image.asset('assets/images/hand.png')
+            ],
+          ),
         ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage('assets/images/profile_pic.png'),
+            ),
+          ),
+        ],
+      ),
+      body: ListView(
+        //TODO: To see how to solve the issue of padding in he grid
+        padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 33.0),
+        children: [
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Row(
+          //       children: [
+          //         const Text(
+          //           'Hello Sonia',
+          //           style: TextStyling.headingStyle,
+          //         ),
+          //         const SizedBox(width: 8.0),
+          //         Image.asset('assets/images/hand.png')
+          //       ],
+          //     ),
+          //     const CircleAvatar(
+          //       radius: 20,
+          //       backgroundImage: AssetImage('assets/images/profile_pic.png'),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 33.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                width: 270.w,
+                child: const CustomTextFormField(
+                    hintText: 'Search', preffixIcon: Icons.search),
+              ),
+              Container(
+                height: 44.h,
+                width: 44.w,
+                decoration: BoxDecoration(
+                  color: AppColor.primaryColor,
+                  borderRadius: BorderRadius.circular(15.r),
+                ),
+                child:
+                    Center(child: Image.asset('assets/images/filter_icon.png')),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30.0),
+          const Text(
+            'Breaking news',
+            style: TextStyling.headingStyle,
+          ),
+          const SizedBox(height: 18.0),
+          BlogGrid(),
+          const SizedBox(height: 18.0),
+          const NewsCategoryTabBar()
+        ],
       ),
     );
   }
