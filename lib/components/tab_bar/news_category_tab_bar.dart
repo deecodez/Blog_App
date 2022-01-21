@@ -45,7 +45,7 @@ class _NewsCategoryTabBarState extends State<NewsCategoryTabBar>
           // ),
           Column(
             children: [
-              Container(
+              SizedBox(
                 height: 50.h,
                 width: MediaQuery.of(context).size.width,
                 child: PreferredSize(
