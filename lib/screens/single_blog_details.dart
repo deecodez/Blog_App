@@ -1,14 +1,27 @@
 import 'package:blog_app/components/tab_bar/all_category_content.dart';
 import 'package:blog_app/const/colors.dart';
 import 'package:blog_app/screens/edit_blog_screen.dart';
+import 'package:blog_app/services/firebase_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SingleBlogDetailsScreen extends StatelessWidget {
-  final String img;
-  final String text;
+  final String blogImgUrl;
+  final String title;
+  final String body;
+  final String authorImg;
+  final String authorName;
+  final String datePosted;
+  final String postId;
   const SingleBlogDetailsScreen(
-      {required this.img, required this.text, Key? key})
+      {required this.blogImgUrl,
+      required this.title,
+      required this.body,
+      required this.authorImg,
+      required this.authorName,
+      required this.datePosted,
+      required this.postId,
+      Key? key})
       : super(key: key);
 
   @override
@@ -113,6 +126,14 @@ class SingleBlogDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
+                            FireBaseApi().deletePost(postId);
+                            //Displaying message
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Post Deleted Succesfully'),
+                              duration: Duration(seconds: 3),
+                            ));
+                            Navigator.of(ctx).pop(true);
                             Navigator.of(ctx).pop(true);
                           },
                           child: Text(
@@ -171,7 +192,7 @@ class SingleBlogDetailsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Icon(
-                          Icons.delete,
+                          Icons.edit,
                           color: Color(0xFF282828),
                         ),
                         Text(
@@ -204,7 +225,7 @@ class SingleBlogDetailsScreen extends StatelessWidget {
                           color: Color(0xFFEF0404),
                         ),
                         Text(
-                          'Edit Post',
+                          'Delete Post',
                           style: TextStyle(
                             fontFamily: 'SF Pro Text',
                             fontStyle: FontStyle.normal,
@@ -236,7 +257,18 @@ class SingleBlogDetailsScreen extends StatelessWidget {
             clipBehavior: Clip.none,
             // fit: StackFit.expand,
             children: [
-              Image.asset(img),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 195.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.r),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(blogImgUrl),
+                  ),
+                ),
+              ),
+              // Image.asset(img),
               const Positioned(
                 bottom: -15,
                 left: 220,
@@ -250,7 +282,7 @@ class SingleBlogDetailsScreen extends StatelessWidget {
           ),
           SizedBox(height: 18.h),
           Text(
-            text,
+            title,
             style: TextStyle(
               fontFamily: 'Inter',
               fontStyle: FontStyle.normal,
@@ -273,24 +305,23 @@ class SingleBlogDetailsScreen extends StatelessWidget {
                 text: '2.2k',
               ),
               SizedBox(width: 18.w),
-              const BlogSubContent(
+              BlogSubContent(
                 icon: Icons.calendar_today_outlined,
-                text: '12 Jan 2021',
+                text: datePosted,
               ),
             ],
           ),
           SizedBox(height: 13.h),
           Row(
             children: [
-              const CircleAvatar(
-                radius: 15,
-                backgroundImage: AssetImage(
-                  'assets/images/profile_pic.png',
-                ),
-              ),
+              CircleAvatar(radius: 15, backgroundImage: NetworkImage(authorImg)
+                  //  AssetImage(
+                  //   'assets/images/profile_pic.png',
+                  // ),
+                  ),
               const SizedBox(width: 8.0),
               Text(
-                'John Stone',
+                authorName,
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontStyle: FontStyle.normal,
@@ -298,8 +329,19 @@ class SingleBlogDetailsScreen extends StatelessWidget {
                   fontSize: 12.sp,
                   color: const Color(0xFF7B7B7B),
                 ),
-              )
+              ),
             ],
+          ),
+          const SizedBox(height: 14.0),
+          Text(
+            body,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w500,
+              fontSize: 14.sp,
+              color: const Color(0xFF989BA5),
+            ),
           ),
         ],
       ),

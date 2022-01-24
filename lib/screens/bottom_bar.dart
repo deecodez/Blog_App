@@ -92,7 +92,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) {
-            return const CreateBlogScreen();
+            return CreateBlogScreen();
           }));
           // setState(() {
           //   _selectedIndex = 3;

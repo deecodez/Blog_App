@@ -1,11 +1,31 @@
 import 'package:blog_app/const/colors.dart';
 import 'package:blog_app/const/text_syle.dart';
+import 'package:blog_app/provider/google_sign_in.dart';
 import 'package:blog_app/resuable-widgets/custom_button.dart';
+import 'package:blog_app/services/firebase_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final auth = FireBaseApi();
+  final navigatorKey = GlobalKey<NavigatorState>();
+  bool obstureText = true;
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +45,33 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 61.h),
-            const CustomTextFormField(
+            CustomTextFormField(
               hintText: 'Email',
-              suffixIcon: Icons.email,
+              obscureText: false,
+              suffixIcon: const Icon(
+                Icons.email,
+                color: Color(0xFF78768E),
+                size: 20.0,
+              ),
+              controler: emailController,
             ),
-            SizedBox(height: 6.h),
-            const CustomTextFormField(
+            SizedBox(height: 16.h),
+            CustomTextFormField(
               hintText: 'Password',
-              suffixIcon: Icons.visibility_off,
+              obscureText: obstureText,
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    obstureText = !obstureText;
+                  });
+                },
+                child: Icon(
+                  obstureText ? Icons.visibility : Icons.visibility_off,
+                  color: const Color(0xFF78768E),
+                  size: 20.0,
+                ),
+              ),
+              controler: passwordController,
             ),
             SizedBox(height: 35.h),
             Row(
@@ -54,7 +93,15 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 32.h),
-            const CustomButton(buttonText: 'Login'),
+            CustomButton(
+              buttonText: 'Login',
+              onPressed: () {
+                auth.signIn(emailController.text.trim(),
+                    passwordController.text.trim(), context);
+
+                // navigatorKey.currentState!.popUntil((route) => route.isFirst);
+              },
+            ),
             SizedBox(height: 23.h),
             Text(
               'Or log in with',
@@ -73,7 +120,14 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/images/apple_icon.png'),
                 const SizedBox(width: 13.0),
-                Image.asset('assets/images/google_icon.png'),
+                GestureDetector(
+                    onTap: () {
+                      final provider = Provider.of<GoogleSignInProvider>(
+                          context,
+                          listen: false);
+                      provider.googleLogin(context);
+                    },
+                    child: Image.asset('assets/images/google_icon.png')),
               ],
             ),
           ],
@@ -85,32 +139,33 @@ class LoginScreen extends StatelessWidget {
 
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
-  final IconData? suffixIcon;
+  final Widget? suffixIcon;
   final IconData? preffixIcon;
-  //TODO: To add controller, to validate and add some other parameter
+  final TextEditingController? controler;
+  final bool? obscureText;
   const CustomTextFormField({
     required this.hintText,
     this.suffixIcon,
     this.preffixIcon,
+    this.controler,
+    this.obscureText,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 44.h,
+      height: 51.h,
       child: TextFormField(
-        cursorColor: AppColor.secondaryColor,
+        controller: controler,
+        cursorColor: AppColor.primaryColor,
+        obscureText: obscureText!,
         decoration: InputDecoration(
           fillColor: AppColor.secondaryColor,
           filled: true,
           hintText: hintText,
           hintStyle: TextStyling.hintTextStyle,
-          suffixIcon: Icon(
-            suffixIcon,
-            color: const Color(0xFF78768E),
-            size: 20.0,
-          ),
+          suffixIcon: suffixIcon,
           prefixIcon: Icon(
             preffixIcon,
             color: const Color(0xFF78768E),

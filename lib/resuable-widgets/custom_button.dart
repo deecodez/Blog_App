@@ -4,8 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   final String buttonText;
+  final void Function()? onPressed;
   const CustomButton({
     required this.buttonText,
+    this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +27,7 @@ class CustomButton extends StatelessWidget {
             ),
           ),
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           buttonText,
           style: TextStyle(
