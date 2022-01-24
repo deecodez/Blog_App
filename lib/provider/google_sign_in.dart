@@ -31,7 +31,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       notifyListeners();
       // Navigator.pop(context);
     } catch (e) {
-      print(e);
+      // print(e);
       return null;
     }
     Navigator.pop(context);

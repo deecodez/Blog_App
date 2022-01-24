@@ -60,7 +60,16 @@ class SingleBlogDetailsScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const EditBlogScreen()),
+                    builder: (context) => EditBlogScreen(
+                      authorImg: authorImg,
+                      authorName: authorName,
+                      blogImgUrl: blogImgUrl,
+                      body: body,
+                      datePosted: datePosted,
+                      postId: postId,
+                      title: title,
+                    ),
+                  ),
                 );
               }
               if (value == 1) {

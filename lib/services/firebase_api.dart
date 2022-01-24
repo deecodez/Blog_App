@@ -85,6 +85,37 @@ class FireBaseApi {
     post.delete();
   }
 
+  //Updating post
+  Future updatePost({
+    required String postId,
+    required String title,
+    required String body,
+    // required String authorImg,
+    // required String authorName,
+    required String blogImgUrl,
+  }) async {
+    final user = firebaseAuth.currentUser!;
+    final postRef = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(user.uid)
+        .collection("userPosts")
+        .doc(postId);
+    final json = {
+      'postId': postId,
+      'title': title,
+      'body': body,
+      'blogImgUrl': blogImgUrl,
+      'authorImg': user.photoURL == null
+          ? 'https://cdn.pixabay.com/photo/2016/03/27/22/16/fashion-1284496__340.jpg'
+          : user.photoURL!,
+      'authorName': user.displayName == null
+          ? user.email!
+          : '${user.displayName!.split(" ")[0]} ${user.displayName!.split(" ")[1]}',
+      'datePosted': DateTime.now(),
+    };
+    postRef.update(json);
+  }
+
   Future signIn(String email, String password, BuildContext context) async {
     showDialog(
       context: context,

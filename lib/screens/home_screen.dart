@@ -295,46 +295,51 @@ class BlogGrid extends StatelessWidget {
           final blogData = snapShot.data!;
           return SizedBox(
             height: 260.h,
-            child: GridView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: blogData.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 1,
-                mainAxisExtent: 260.w,
-                childAspectRatio: 1,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 16.0,
-              ),
-              itemBuilder: (context, int index) {
-                final blog = blogData[index];
-                // final blog = blogDetails[index];
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (BuildContext context) {
-                      return SingleBlogDetailsScreen(
-                        postId: blog.postId,
-                        blogImgUrl: blog.blogImgUrl,
-                        title: blog.title,
-                        body: blog.body,
-                        authorImg: blog.authorImg,
-                        authorName: blog.authorName,
-                        datePosted: DateFormat(' d MMM yyyy')
-                            .format(blog.datePosted)
-                            .toString(),
+            child: blogData.isEmpty
+                ? const Text(
+                    'No Post Yet, Please Add One',
+                    style: TextStyling.headingStyle,
+                  )
+                : GridView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: blogData.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      mainAxisExtent: 260.w,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 16.0,
+                    ),
+                    itemBuilder: (context, int index) {
+                      final blog = blogData[index];
+                      // final blog = blogDetails[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return SingleBlogDetailsScreen(
+                              postId: blog.postId,
+                              blogImgUrl: blog.blogImgUrl,
+                              title: blog.title,
+                              body: blog.body,
+                              authorImg: blog.authorImg,
+                              authorName: blog.authorName,
+                              datePosted: DateFormat(' d MMM yyyy')
+                                  .format(blog.datePosted)
+                                  .toString(),
+                            );
+                          }));
+                        },
+                        child: BlogContainer(
+                          blogImg: blog.blogImgUrl,
+                          blogTitle: blog.title,
+                          authorImg: blog.authorImg,
+                          authorName: blog.authorName,
+                          datePosted: blog.datePosted,
+                        ),
                       );
-                    }));
-                  },
-                  child: BlogContainer(
-                    blogImg: blog.blogImgUrl,
-                    blogTitle: blog.title,
-                    authorImg: blog.authorImg,
-                    authorName: blog.authorName,
-                    datePosted: blog.datePosted,
+                    },
                   ),
-                );
-              },
-            ),
           );
         } else {
           return const Center(
